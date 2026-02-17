@@ -1,3 +1,3 @@
 function App() {
-  return <h1>Z Calculator</h1>;
+  return <h1>Super Z Calculator</h1>;
 }
