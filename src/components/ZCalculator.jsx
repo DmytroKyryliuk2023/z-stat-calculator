@@ -3,8 +3,8 @@ import { jStat } from "jstat";
 
 export default function ZCalculator() {
   const [zScore, setZScore] = useState("");
-  const [pOneTailed, setPOneTailed] = useState(null);
-  const [PTwoTailed, setPTwoTailed] = useState(null);
+  const [oneTailedPValue, setOneTailedPValue] = useState(null);
+  const [twoTailedPValue, setTwoTailedPValue] = useState(null);
 
   const calculatePValue = () => {
     const z = parseFloat(zScore);
@@ -16,8 +16,8 @@ export default function ZCalculator() {
     // Односторонній — це половина двостороннього
     const oneTailed = twoTailed / 2;
 
-    setPOneTailed(oneTailed);
-    setPTwoTailed(twoTailed);
+    setOneTailedPValue(oneTailed);
+    setTwoTailedPValue(twoTailed);
   };
 
   return (
@@ -37,13 +37,13 @@ export default function ZCalculator() {
           Calculate
         </button>
       </div>
-      {pOneTailed !== null && (
+      {oneTailedPValue !== null && (
         <div style={{ marginTop: "2rem" }}>
           <p>
-            <strong>One-tailed p-value:</strong> {pOneTailed.toFixed(5)}
+            <strong>One-tailed p-value:</strong> {oneTailedPValue.toFixed(5)}
           </p>
           <p>
-            <strong>Two-tailed p-value:</strong> {PTwoTailed.toFixed(5)}
+            <strong>Two-tailed p-value:</strong> {twoTailedPValue.toFixed(5)}
           </p>
         </div>
       )}
