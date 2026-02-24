@@ -10,10 +10,7 @@ export default function ZCalculator() {
     const z = parseFloat(zScore);
     if (isNaN(z)) return;
 
-    // Використовуємо вбудовану функцію jStat для z-тесту
-    // Це повертає p-value для двостороннього тесту (sides=2)
     const twoTailed = jStat.ztest(Math.abs(z), 2);
-    // Односторонній — це половина двостороннього
     const oneTailed = twoTailed / 2;
 
     setOneTailedPValue(oneTailed);
@@ -24,8 +21,9 @@ export default function ZCalculator() {
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h2>Z-Score P-Value Calculator</h2>
       <div>
-        <label>Enter Z-Score: </label>
+        <label htmlFor="zscore-input">Enter Z-Score: </label>
         <input
+          id="zscore-input"
           type="number"
           step="0.01"
           value={zScore}
