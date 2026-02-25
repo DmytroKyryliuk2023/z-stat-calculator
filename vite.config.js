@@ -7,6 +7,13 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.js'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/e2e/**', // Виключаємо E2E тести
+      '**/playwright/**',
+      '**/*.spec.js', // Виключаємо Playwright spec файли
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
@@ -15,6 +22,7 @@ export default defineConfig({
         'src/test/',
         '**/*.test.js',
         '**/*.test.jsx',
+        '**/e2e/**',
       ],
     },
   },
