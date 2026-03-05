@@ -1,11 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 import { calculatePValues, formatPValue, validateZScore } from '../zCalculator';
-import { jStat } from 'jstat';
+// Видаляємо непотрібний імпорт
+// import { jStat } from 'jstat';
 
 // Мокаємо jStat для контролю над результатами
 vi.mock('jstat', () => ({
   jStat: {
-    ztest: vi.fn((z, sides) => {
+    // Додаємо _ перед невикористовуваним параметром
+    ztest: vi.fn((z, _sides) => {
       // Повертаємо передбачувані значення для тестів
       if (Math.abs(z - 1.96) < 0.01) return 0.05;
       if (Math.abs(z - 2.58) < 0.01) return 0.01;
