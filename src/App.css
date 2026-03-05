@@ -117,3 +117,31 @@ body {
   color: #667eea;
   font-weight: 600;
 }
+
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+}
+
+.status-development {
+  background-color: #ffd700;
+  color: #333;
+  border: 1px solid #ccac00;
+}
+
+.status-production {
+  background-color: #4caf50;
+  color: white;
+  border: 1px solid #388e3c;
+}
+
+.footer-status {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  opacity: 0.7;
+}
