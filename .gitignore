@@ -6,6 +6,11 @@ node_modules/
 /dist
 /dist-ssr
 
+# Тестування та покриття
+coverage/
+test-results/
+playwright-report/
+
 # Логи та тимчасові файли ОС
 *.log
 npm-debug.log*
