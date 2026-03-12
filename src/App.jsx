@@ -19,7 +19,7 @@ function App() {
         <ZCalculator />
       </main>
       <footer className="app-footer">
-        <p>Laboratory work #3 | Build Automation</p>
+        <p>Laboratory work #1 | Build Automation</p>
         {/* Відображаємо статус також у футері */}
         <p className="footer-status">
           Running in <strong>{appStatus}</strong> mode
