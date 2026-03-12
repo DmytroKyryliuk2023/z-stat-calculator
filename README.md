@@ -6,6 +6,9 @@
 
 **Tech Stack**: React, jStat
 
+## Live Demo
+**[https://z-stat-calculator.vercel.app](https://z-stat-calculator.vercel.app)**
+
 ## Як запустити
 1. Клонувати репозиторій
 2. `npm install`
