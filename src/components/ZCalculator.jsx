@@ -1,30 +1,54 @@
 import { useState } from "react";
 import { jStat } from "jstat";
+import posthog from 'posthog-js';
 
 export default function ZCalculator() {
   const [zScore, setZScore] = useState("");
   const [oneTailedPValue, setOneTailedPValue] = useState(null);
   const [twoTailedPValue, setTwoTailedPValue] = useState(null);
 
+  // Подія 1: натиснув на поле введення
+  const handleInputFocus = () => {
+    posthog.capture('input_focused', {
+      field_name: 'zscore_input',
+    });
+  };
+
+  // Подія 2: ввів значення
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setZScore(value);
+    
+    if (value && value !== '') {
+      posthog.capture('value_entered', {
+        input_value: value,
+        value_length: value.length,
+      });
+    }
+  };
+
   const calculatePValue = () => {
-    console.log('Calculating with zScore:', zScore);
     const z = parseFloat(zScore);
     if (isNaN(z)) {
-      console.log('Invalid zScore');
       return;
     }
 
     const twoTailed = jStat.ztest(Math.abs(z), 2);
     const oneTailed = twoTailed / 2;
-
-    console.log('Calculated:', { oneTailed, twoTailed });
     
     setOneTailedPValue(oneTailed);
     setTwoTailedPValue(twoTailed);
   };
 
+  // Подія 3: натиснув кнопку "Calculate"
+  const handleCalculateClick = () => {
+    posthog.capture('calculate_button_clicked', {
+      current_z_score: zScore || 'empty',
+    });
+    calculatePValue();
+  };
+
   const handleKeyDown = (e) => {
-    console.log('Key pressed:', e.key);
     if (e.key === 'Enter') {
       e.preventDefault();
       calculatePValue();
@@ -41,14 +65,15 @@ export default function ZCalculator() {
           type="number"
           step="0.01"
           value={zScore}
-          onChange={(e) => setZScore(e.target.value)}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
           onKeyDown={handleKeyDown}
           placeholder="e.g., 1.96"
           style={{ marginRight: "1rem", padding: "0.3rem" }}
           data-testid="zscore-input"
         />
         <button 
-          onClick={calculatePValue} 
+          onClick={handleCalculateClick} 
           style={{ padding: "0.3rem 1rem" }}
           data-testid="calculate-button"
         >
