@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "jstat": "^1.9.6",
+    "posthog-js": "^1.364.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
