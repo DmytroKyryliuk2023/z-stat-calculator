@@ -1,20 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { jStat } from "jstat";
 import posthog from 'posthog-js';
+import * as Sentry from "@sentry/react";
 
 export default function ZCalculator() {
   const [zScore, setZScore] = useState("");
   const [oneTailedPValue, setOneTailedPValue] = useState(null);
   const [twoTailedPValue, setTwoTailedPValue] = useState(null);
 
-  // Подія 1: натиснув на поле введення
+  // Генерація унікального ID користувача (зберігається в localStorage)
+  const [userId] = useState(() => {
+    let id = localStorage.getItem('user_id');
+    if (!id) {
+      id = 'user_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('user_id', id);
+    }
+    return id;
+  });
+
+  // Передача контексту користувача в Sentry
+  useEffect(() => {
+    Sentry.setUser({
+      id: userId,
+      email: `${userId}@example.com`,
+      segment: "calculator_user"
+    });
+  }, [userId]);
+
   const handleInputFocus = () => {
     posthog.capture('input_focused', {
       field_name: 'zscore_input',
     });
   };
 
-  // Подія 2: ввів значення
   const handleInputChange = (e) => {
     const value = e.target.value;
     setZScore(value);
@@ -40,12 +58,15 @@ export default function ZCalculator() {
     setTwoTailedPValue(twoTailed);
   };
 
-  // Подія 3: натиснув кнопку "Calculate"
   const handleCalculateClick = () => {
     posthog.capture('calculate_button_clicked', {
       current_z_score: zScore || 'empty',
     });
     calculatePValue();
+  };
+
+  const throwError = () => {
+    throw new Error("Sentry Test Error: Something went wrong!");
   };
 
   const handleKeyDown = (e) => {
@@ -79,6 +100,12 @@ export default function ZCalculator() {
         >
           Calculate
         </button>
+        <button 
+          onClick={throwError} 
+          style={{ marginLeft: "0.5rem", padding: "0.3rem 1rem", backgroundColor: "#ff4444", color: "white", border: "none", borderRadius: "3px", cursor: "pointer" }}
+        >
+          Викликати помилку
+        </button>
       </div>
       {oneTailedPValue !== null && (
         <div style={{ marginTop: "2rem" }} data-testid="results-container">
@@ -88,6 +115,10 @@ export default function ZCalculator() {
           <p data-testid="two-tailed-result">
             <strong>Two-tailed p-value:</strong> {twoTailedPValue.toFixed(5)}
           </p>
+          {/* Інформаційний блок з ID користувача */}
+          <div style={{ marginTop: "1rem", padding: "0.5rem", backgroundColor: "#f0f0f0", borderRadius: "5px" }}>
+            <small>👤 User ID: {userId}</small>
+          </div>
         </div>
       )}
     </div>
