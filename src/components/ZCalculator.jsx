@@ -7,6 +7,7 @@ export default function ZCalculator() {
   const [zScore, setZScore] = useState("");
   const [oneTailedPValue, setOneTailedPValue] = useState(null);
   const [twoTailedPValue, setTwoTailedPValue] = useState(null);
+  const [specialTheme, setSpecialTheme] = useState(false);
 
   // Перевірка Feature Flag
   useEffect(() => {
