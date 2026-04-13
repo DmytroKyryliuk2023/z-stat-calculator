@@ -8,6 +8,12 @@ export default function ZCalculator() {
   const [oneTailedPValue, setOneTailedPValue] = useState(null);
   const [twoTailedPValue, setTwoTailedPValue] = useState(null);
 
+  // Перевірка Feature Flag
+  useEffect(() => {
+    const isEnabled = posthog.isFeatureEnabled('show-special-theme');
+    setSpecialTheme(isEnabled);
+  }, []);
+
   // Генерація унікального ID користувача (зберігається в localStorage)
   const [userId] = useState(() => {
     let id = localStorage.getItem('user_id');
@@ -77,7 +83,10 @@ export default function ZCalculator() {
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+    <div style={{
+      padding: "2rem", fontFamily: "sans-serif",
+      backgroundColor: specialTheme ? "white" : "transparent"
+    }}>
       <h2>Z-Score P-Value Calculator</h2>
       <div>
         <label htmlFor="zscore-input">Enter Z-Score: </label>
